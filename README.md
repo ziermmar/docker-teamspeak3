@@ -19,8 +19,8 @@ DOCKER=/usr/bin/docker
 DOCKER_IMAGE=ziermmar/teamspeak3
 CONTAINER_NAME=teamspeak.example.com
 
-TS3_UID=5038
-TS3_GID=5038
+TS3_UID=2000
+TS3_GID=2000
 TS3_INI_FILE=teamspeak.example.com.ini
 TS3_VOICE_PORT=9987
 TS3_QUERY_PORT=10011
