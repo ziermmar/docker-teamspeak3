@@ -5,6 +5,11 @@
 docker run -d -p 9987:9987/udp -p 30033:30033 ziermmar/teamspeak3
 ```
 
+## Example with custom UID/GID:
+```
+docker run -d -p 9987:9987/udp -p 30033:30033 -e TEAMSPEAK_UID=2000 -e TEAMSPEAK_GID=2000 -e TEAMSPEAK_INI=ts3_example.com.ini -v /my_ts3_data:/data --name ts3_example.com
+```
+
 ## Example start script:
 
 ```
