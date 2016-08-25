@@ -6,13 +6,13 @@ FROM debian:jessie
 
 MAINTAINER ziermmar
 
-ENV TEAMSPEAK_INI ts3server.ini \
-    LANG en_US.utf8 \
-    TEAMSPEAK_VERSION 3.0.13.3 \
-    TEAMSPEAK_FILENAME teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
-    TEAMSPEAK_CHECKSUM e9f48c8a9bad75165e3a7c9d9f6b18639fd8aba63adaaa40aebd8114166273ae \
-    TEAMSPEAK_URL http://dl.4players.de/ts/releases/3.0.13.3/teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
-    TEAMSPEAK_WORKDIR /opt/teamspeak3
+ENV TEAMSPEAK_INI=ts3server.ini \
+    LANG=en_US.utf8 \
+    TEAMSPEAK_VERSION=3.0.13.3 \
+    TEAMSPEAK_FILENAME=teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
+    TEAMSPEAK_CHECKSUM=e9f48c8a9bad75165e3a7c9d9f6b18639fd8aba63adaaa40aebd8114166273ae \
+    TEAMSPEAK_URL=http://dl.4players.de/ts/releases/3.0.13.3/teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
+    TEAMSPEAK_WORKDIR=/opt/teamspeak3
 
 RUN groupadd --system teamspeak3 --gid=1000 && useradd --system --gid teamspeak3 --uid=1000 teamspeak3
 
