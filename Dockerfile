@@ -6,39 +6,40 @@ FROM debian:jessie
 
 MAINTAINER ziermmar
 
-ENV TEAMSPEAK_UID=1000 TEAMSPEAK_GID=1000 TEAMSPEAK_INIFILE=ts3server.ini
+ENV TEAMSPEAK_INI ts3server.ini \
+    LANG en_US.utf8 \
+    TEAMSPEAK_VERSION 3.0.13.3 \
+    TEAMSPEAK_FILENAME teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
+    TEAMSPEAK_CHECKSUM e9f48c8a9bad75165e3a7c9d9f6b18639fd8aba63adaaa40aebd8114166273ae \
+    TEAMSPEAK_URL http://dl.4players.de/ts/releases/3.0.13.3/teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
+    TEAMSPEAK_WORKDIR /opt/teamspeak3
 
-# Add User & Group
-RUN groupadd -r teamspeak3 --gid=${TEAMSPEAK_GID} && useradd -r -g teamspeak3 --uid=${TEAMSPEAK_UID} teamspeak3
+RUN groupadd --system teamspeak3 --gid=1000 && useradd --system --gid teamspeak3 --uid=1000 teamspeak3
 
-# grab gosu for easy step-down from root
-ENV GOSU_VERSION 1.7
-RUN set -x \
-	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
-	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
-	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-	&& chmod +x /usr/local/bin/gosu \
-	&& gosu nobody true
+VOLUME ${TEAMSPEAK_WORKDIR}/data
 
-# Install dependencies and locale
-RUN set -x \
-	&& apt-get update \
-	&& apt-get -y --no-install-recommends install bzip2 libmariadb2 locales \
-	&& rm -rf /var/lib/apt/lits/* \
-	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+VOLUME ${TEAMSPEAK_WORKDIR}/files
 
-ENV LANG en_US.utf8
+RUN set -x 	&& \
+    apt-get update 	&& \
+    apt-get -y --no-install-recommends install bzip2 libmariadb2 locales wget && \
+    rm -rf /var/lib/apt/lits/* 	&& \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 	&& \
+    mkdir -p ${TEAMSPEAK_WORKDIR} ${TEAMSPEAK_WORKDIR}/data ${TEAMSPEAK_WORKDIR}/files && \
+    chown -R teamspeak3:teamspeak3 ${TEAMSPEAK_WORKDIR}
+
+USER teamspeak3
+
+WORKDIR /opt/teamspeak3
+
+RUN echo "Downloading Teamspeak3 Server..."  && \
+    wget -q "$TEAMSPEAK_URL" && \
+    echo "Validating checksum..." && \
+    echo "$TEAMSPEAK_CHECKSUM *$TEAMSPEAK_FILENAME" | sha256sum -c - 
 
 COPY teamspeak3-start.sh /teamspeak3-start
 
-VOLUME /data
-WORKDIR /data
-
-CMD ["/teamspeak3-start"]
+CMD /teamspeak3-start
 
 EXPOSE 9987/udp 10011 30033
 
