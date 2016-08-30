@@ -14,17 +14,18 @@ ENV TEAMSPEAK_INI=ts3server.ini \
     TEAMSPEAK_URL=http://dl.4players.de/ts/releases/3.0.13.3/teamspeak3-server_linux_amd64-3.0.13.3.tar.bz2 \
     TEAMSPEAK_WORKDIR=/opt/teamspeak3
 
-RUN groupadd --system teamspeak3 --gid=1000 && useradd --system --gid teamspeak3 --uid=1000 teamspeak3
+RUN groupadd --system teamspeak3 --gid=1000 && \
+    useradd --system --gid teamspeak3 --uid=1000 teamspeak3
 
 VOLUME ${TEAMSPEAK_WORKDIR}/data
 
 VOLUME ${TEAMSPEAK_WORKDIR}/files
 
-RUN set -x 	&& \
-    apt-get update 	&& \
+RUN set -x && \
+    apt-get update && \
     apt-get -y --no-install-recommends install bzip2 libmariadb2 locales wget && \
-    rm -rf /var/lib/apt/lits/* 	&& \
-    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 	&& \
+    rm -rf /var/lib/apt/lits/* && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
     mkdir -p ${TEAMSPEAK_WORKDIR} ${TEAMSPEAK_WORKDIR}/data ${TEAMSPEAK_WORKDIR}/files && \
     chown -R teamspeak3:teamspeak3 ${TEAMSPEAK_WORKDIR}
 
@@ -32,7 +33,7 @@ USER teamspeak3
 
 WORKDIR /opt/teamspeak3
 
-RUN echo "Downloading Teamspeak3 Server..."  && \
+RUN echo "Downloading Teamspeak3 Server..." && \
     wget -q "$TEAMSPEAK_URL" && \
     echo "Validating checksum..." && \
     echo "$TEAMSPEAK_CHECKSUM *$TEAMSPEAK_FILENAME" | sha256sum -c - 

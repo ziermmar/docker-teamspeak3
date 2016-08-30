@@ -16,8 +16,34 @@ docker run -d -p 9987:9987/udp -p 30033:30033 ziermmar/teamspeak3
 docker run -d -p 9987:9987/udp -p 30033:30033 -e TEAMSPEAK_UID=2000 -e TEAMSPEAK_GID=2000 -e TEAMSPEAK_INI=ts3_example.com.ini -v /my_ts3_data:/data --name ts3_example.com
 ```
 
+## Example systemd unit:
+```
+[Unit]
+Description=Teamspeak3 Server: teamspeak.example.com
+After=docker.service
+Requires=docker.service
 
-## Example start script:
+[Service]
+Restart=always
+ExecStartPre=/usr/bin/docker pull ziermmar/teamspeak3
+ExecStart=/usr/bin/docker run \
+--env TEAMSPEAK_UID=2000 \
+--env TEAMSPEAK_GID=2000 \
+--env TEAMSPEAK_INIFILE=teamspeak.example.com.ini \
+--publish 9987:9987/udp \
+--publish 10011:10011 \
+--publish 30033:30033 \
+--volume /var/virtual/mounts/teamspeak.example.com:/data \
+--name teamspeak.example.com \
+ziermmar/teamspeak3
+ExecStop=/usr/bin/docker stop -t 2 teamspeak.example.com
+ExecStopPost=/usr/bin/docker rm -f teamspeak.example.com
+
+[Install]
+WantedBy=multi-user.target
+```
+
+## Example start/stop script:
 ```
 #!/bin/sh
 
