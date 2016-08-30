@@ -5,8 +5,6 @@
 docker run -d -p 9987:9987/udp -p 30033:30033 ziermmar/teamspeak3
 ```
 
-<<<<<<< HEAD
-
 ## Example with custom UID/GID:
 ```
 docker run -d -p 9987:9987/udp -p 30033:30033 -e TEAMSPEAK_UID=2000 -e TEAMSPEAK_GID=2000 -e TEAMSPEAK_INI=ts3_example.com.ini -v /my_ts3_data:/data --name ts3_example.com
@@ -40,10 +38,6 @@ WantedBy=multi-user.target
 ```
 
 ## Example start/stop script:
-=======
-## Example start script:
-
->>>>>>> d9db67376644d2c1c33807e3718cf7eb65be9ed4
 ```
 #!/bin/sh
 
