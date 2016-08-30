@@ -1,15 +1,11 @@
 # Teamspeak3 Server
-* based on the latest debian image
-* runs as non-root (user id customizable)
-* automatically downloads latest Teamspeak3 Server release
-* ephemeral
-
 
 ## Example startup:
 ```
 docker run -d -p 9987:9987/udp -p 30033:30033 ziermmar/teamspeak3
 ```
 
+<<<<<<< HEAD
 
 ## Example with custom UID/GID:
 ```
@@ -44,6 +40,10 @@ WantedBy=multi-user.target
 ```
 
 ## Example start/stop script:
+=======
+## Example start script:
+
+>>>>>>> d9db67376644d2c1c33807e3718cf7eb65be9ed4
 ```
 #!/bin/sh
 
@@ -51,8 +51,8 @@ DOCKER=/usr/bin/docker
 DOCKER_IMAGE=ziermmar/teamspeak3
 CONTAINER_NAME=teamspeak.example.com
 
-TS3_UID=2000
-TS3_GID=2000
+TS3_UID=5038
+TS3_GID=5038
 TS3_INI_FILE=teamspeak.example.com.ini
 TS3_VOICE_PORT=9987
 TS3_QUERY_PORT=10011
