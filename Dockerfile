@@ -1,6 +1,4 @@
 # Teamspeak3 Server
-# * pulls the latest 64-bit server from the vendor's website
-
 
 FROM debian:latest
 

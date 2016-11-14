@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# initialize.sh sets the stage and starts the actual script in user context
 set -e
 
 usermod --uid $TEAMSPEAK_UID teamspeak3
