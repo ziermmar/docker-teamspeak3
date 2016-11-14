@@ -8,7 +8,7 @@ MAINTAINER ziermmar
 
 RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update \
-	&& apt-get -y install wget bzip2 sudo libmariadb2 \
+	&& apt-get -y install wget bzip2 sudo libmariadb2 libxml2-utils \
         && mkdir -p /data \
         && useradd -M -s /bin/false --uid 1000 teamspeak3 \
         && chmod -R 774 /data \
