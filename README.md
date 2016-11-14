@@ -2,17 +2,21 @@
 This image tries to get the newest teamspeak distribution from the vendor's website without having
 to rely on external scripts. It also drops root privileges as soon as possible.
 
-## Example startup:
+
+# Example startup:
 ```
 docker run -d -p 9987:9987/udp -p 30033:30033 ziermmar/teamspeak3
 ```
 
-## Example with custom UID/GID:
+
+# Example with custom UID/GID:
 ```
 docker run -d -p 9987:9987/udp -p 30033:30033 -e TEAMSPEAK_UID=2000 -e TEAMSPEAK_GID=2000 -e TEAMSPEAK_INI=ts3_example.com.ini -v /my_ts3_data:/data --name ts3_example.com
 ```
 
-## Example systemd unit:
+
+# Example systemd unit:
+On a debian host, you would copy this to ```/etc/systemd/system/teamspeak.example.com.service``` and run ```systemctl daemon-reload```. You can then use ```systemctl (start|stop|restart) teamspeak.example.com``` to interact with the service.
 ```
 [Unit]
 Description=Teamspeak3 Server: teamspeak.example.com
@@ -39,7 +43,8 @@ ExecStopPost=/usr/bin/docker rm -f teamspeak.example.com
 WantedBy=multi-user.target
 ```
 
-## Example start/stop script:
+
+# Example start/stop script:
 ```
 #!/bin/sh
 
@@ -82,3 +87,4 @@ case "$1" in
 		exit 1
 esac
 ```
+
