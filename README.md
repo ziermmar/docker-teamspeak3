@@ -1,4 +1,6 @@
 # Teamspeak3 Server
+This image tries to get the newest teamspeak distribution from the vendor's website without having
+to rely on external scripts. It also drops root privileges as soon as possible.
 
 ## Example startup:
 ```
