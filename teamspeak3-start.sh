@@ -7,8 +7,8 @@ get_variables()
 	echo "Getting Variables..."
 	cd /tmp
 	wget -q -O /tmp/ts3.version https://www.teamspeak.com/downloads
-	TEAMSPEAK_VERSION=$(cat /tmp/ts3.version| xmllint --html --xpath '//*[@id="ts-downloads"]/li[2]/div[3]/div[2]/div[1]/div/span[1]' - 2>/dev/null | grep -o -P '\d+\.\d+\.\d+\.\d+')
-	TEAMSPEAK_CHECKSUM=$(cat /tmp/ts3.version| xmllint --html --xpath '//*[@id="ts-downloads"]/li[2]/div[3]/div[2]/div[1]/div/span[2]' - 2>/dev/null | cut -c60-123)
+	TEAMSPEAK_VERSION=$(cat /tmp/ts3.version| xmllint --html --xpath '//*[@id="tab-server"]/div[3]/div[2]/div[1]/h3/span' - 2>/dev/null | grep -o -P '\d+\.\d+\.\d+\.\d+')
+	TEAMSPEAK_CHECKSUM=$(cat /tmp/ts3.version| xmllint --html --xpath '//*[@id="tab-server"]/div[3]/div[2]/div[1]/div[1]' - 2>/dev/null | grep -o -P 'SHA256:\s\K(.{64})')
 	TEAMSPEAK_FILENAME=teamspeak3-server_linux_amd64-$TEAMSPEAK_VERSION.tar.bz2
 	TEAMSPEAK_URL=http://dl.4players.de/ts/releases/$TEAMSPEAK_VERSION/$TEAMSPEAK_FILENAME
 	rm /tmp/ts3.version
